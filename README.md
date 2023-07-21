@@ -3,7 +3,7 @@
         <tr>
             <td>
                 <a href="https://www.buymeacoffee.com/reutenkoivan">
-                    <img height="50" src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" />
+                    <img height="50" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=reutenkoivan&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" />
                 </a>
             </td>
             <td>

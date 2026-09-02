@@ -1,0 +1,44 @@
+# GitHub profile README widgets
+
+Research date: 2026-09-02. The target positioning is **Frontend Architect / Tech Lead / Team Lead**, with only `mk-combos` and `typescript-cli-template` featured.
+
+## Decision
+
+Use a restrained visual system:
+
+1. Two profile-owned visual project tiles: an implementation-quality architecture card for [`mk-combos`](https://github.com/reutenkoivan/mk-combos), emphasizing domain boundaries, reusable contracts, architecture checks, and CI/CD rather than product visuals; and a compact terminal/toolchain visual for [`typescript-cli-template`](https://github.com/reutenkoivan/typescript-cli-template). Store the assets in this profile repository and link each image to its project. This is more credible than generated pin cards while both repositories have empty GitHub “About” descriptions and zero-star metadata.
+2. At most one compact GitHub activity card at the bottom, generated as a static SVG by [`stats-organization/github-readme-stats-action`](https://github.com/marketplace/actions/github-readme-stats-action). Use public data, `hide_rank=true`, and the built-in `GITHUB_TOKEN`; do not show Top Languages.
+3. One flat LinkedIn badge from [Shields.io](https://shields.io/docs/static-badges) as the only badge-style CTA.
+4. Pin `mk-combos` and `typescript-cli-template` natively on the GitHub profile. GitHub already presents up to six pins, Achievements, and the contribution graph, so the README should not reproduce them with trophy, streak, activity-graph, or snake widgets ([GitHub profile contributions](https://docs.github.com/en/account-and-profile/concepts/contributions-on-your-profile)).
+
+Remove the current Awesome GitHub Stats “level” card and the legacy GitHub Readme Stats Top Languages card.
+
+## Decision matrix
+
+| Option | Reliability, privacy, and theme/accessibility | Value for this profile | Verdict |
+| --- | --- | --- | --- |
+| Profile-owned visual project tiles | No token or runtime service. Relative repository images are supported, and GitHub documents `<picture>` with light/dark sources plus descriptive alt text ([GitHub writing quickstart](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/quickstart-for-writing-on-github), [image syntax](https://docs.github.com/en/enterprise-cloud%40latest/get-started/writing-on-github/getting-started-with-writing-and-formatting-syntax#images)). | Shows concrete engineering judgment rather than vanity metrics. For `mk-combos`, the visual should communicate implementation quality and architecture rather than UI polish. | **Use for both featured projects.** |
+| GitHub Stats Extended Action | The original `anuraghazra/github-readme-stats` now explicitly says it is unmaintained and points to this successor/action ([notice](https://github.com/anuraghazra/github-readme-stats/blob/master/readme.md)). The action commits SVGs into the profile repo, avoiding a runtime public endpoint; public stats work with `GITHUB_TOKEN`, while private stats require a PAT ([action docs](https://github.com/marketplace/actions/github-readme-stats-action)). | A single quiet activity summary can add visual rhythm. Rank and language breakdowns narrow a leadership profile to gamified output. | **Use one static stats card; no rank, no Top Languages.** |
+| Generated repo/pin cards | The successor action supports static `pin` cards and themes, with the same token model ([action docs](https://github.com/marketplace/actions/github-readme-stats-action), [themes](https://github.com/stats-organization/github-stats-extended/blob/master/packages/core/src/themes/README.md)). | Current cards would foreground empty descriptions and zero stars. They become viable only after each repository’s About description/topics are curated. | **Defer; prefer custom project tiles now.** |
+| Shields.io | Actively maintained, widely used, static badges need no token, but `img.shields.io` remains an external image service ([official repo](https://github.com/badges/shields), [static badges](https://shields.io/docs/static-badges)). | Good for one recognizable contact affordance; a technology badge wall looks junior and quickly becomes stale. | **Use LinkedIn only.** |
+| Awesome GitHub Stats (current card) | Public Azure-hosted endpoint; the project documents an aggressive 24-hour cache and local PAT setup, themes, and level/rank cards ([official repo](https://github.com/brunobritodev/awesome-github-stats)). | “Level” is gamified and does not evidence architecture, team leadership, or delivery impact. It also adds another remote failure point. | **Remove.** |
+| GitHub Profile Trophy | The owner warns that hosting cost may force discontinuation and asks users to self-host/load-balance; the public service offers themes but is a dense remote SVG ([official repo and warning](https://github.com/ryo-ma/github-profile-trophy)). | Trophy ranks duplicate GitHub’s native Achievements and read as gamification. | **Do not use.** |
+| Streak Stats | Maintained and can generate a local static SVG via GitHub Actions; public data uses `GITHUB_TOKEN`, private contributions can use a stored token, and animations can be disabled ([official README/FAQ](https://github.com/DenverCoder1/github-readme-streak-stats), [FAQ](https://github.com/DenverCoder1/github-readme-streak-stats/blob/main/docs/faq.md)). | Daily streaks reward visible cadence, not architectural leverage or leadership; private/company work can still make the signal incomplete. | **Do not use.** |
+| Activity Graph | The project’s canonical public deployment has already moved after Heroku and Cyclic shutdowns; self-hosting private stats asks for a PAT with `repo`, while themes are configurable ([official README](https://github.com/Ashutosh00710/github-readme-activity-graph/blob/main/README.md)). | Duplicates GitHub’s native contribution graph and adds a full-width remote dependency. | **Do not use.** |
+| Contribution snake (`snk`) | Maintained action generates local SVG/GIF assets and supports GitHub light/dark palettes ([official README](https://github.com/Platane/snk/blob/main/README.md)). Continuous auto-animation is also an accessibility concern when no pause control is available ([WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html)). | Playful, but visually noisy and off-positioning for an architect/lead profile. | **Do not use.** |
+| `lowlighter/metrics` | GitHub Action output avoids runtime downtime, but setup requires a PAT and optional plugins add scopes and substantial configuration ([setup](https://github.com/lowlighter/metrics/blob/master/.github/readme/partials/documentation/setup/action.md), [plugin catalog](https://github.com/lowlighter/metrics/blob/master/README.md)). Its “notable contributions” plugin can show contribution evidence ([official plugin docs](https://github.com/lowlighter/metrics/blob/master/source/plugins/notable/README.md)). | Better than Trophy if a verified open-source contribution story later exists, but currently too dense and operationally expensive for the value. | **Reserve as a future alternative, not the default.** |
+
+## Implementation guardrails
+
+- Give every image meaningful alt text; do not rely on SVG-internal labels. For light/dark variants, use the documented `<picture>` pattern.
+- Link the stats image to the native GitHub contributions/profile view so the underlying information remains reachable without the image.
+- Generate public-only stats with the repository-scoped `GITHUB_TOKEN`. Avoid a PAT unless private statistics are explicitly worth the extra secret and permission surface. GitHub recommends minimum token permissions and secrets rather than plaintext credentials ([secure use](https://docs.github.com/en/actions/reference/security/secure-use), [`GITHUB_TOKEN`](https://docs.github.com/en/actions/concepts/security/github_token)).
+- If a workflow commits generated assets, grant only the required `contents: write`; all unspecified permissions become `none` ([workflow permissions](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)). Pin third-party actions to a reviewed commit SHA when implementing.
+- Scheduled workflows in inactive public repositories can be disabled after 60 days, so generated cards must fail gracefully and remain readable as their last committed SVG ([GitHub workflow behavior](https://docs.github.com/en/enterprise-server%403.17/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows)).
+- Keep the entire README useful when every image fails: role, focus, project names/descriptions, and LinkedIn must remain real text/links.
+
+## Recommended visual hierarchy
+
+`Hero text → focus text → mk-combos visual tile → typescript-cli-template visual tile → one static stats card → LinkedIn badge`
+
+This gives the projects most visual weight, keeps activity subordinate to expertise, and avoids a badge wall.

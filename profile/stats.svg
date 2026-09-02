@@ -1,28 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="495" height="155" viewBox="0 0 495 155">
-  <title id="title">Public GitHub activity</title>
-  <desc id="desc">A placeholder that will be replaced with current public GitHub activity by the profile workflow.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="680" height="164" viewBox="0 0 680 164">
+  <title id="title">Public GitHub activity for reutenkoivan</title>
+  <desc id="desc">Public repositories, recently active repositories, active days, and recent public events.</desc>
   <style>
     .card { fill: #f6f8fa; stroke: #d0d7de; }
-    .title { fill: #1f2328; font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .copy { fill: #656d76; font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .bar { fill: #1a7f37; }
+    .heading { fill: #1f2328; font: 600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .subtle { fill: #656d76; font: 400 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .value { fill: #1a7f37; font: 700 23px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .label { fill: #656d76; font: 500 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .line { stroke: #d0d7de; }
     @media (prefers-color-scheme: dark) {
       .card { fill: #161b22; stroke: #30363d; }
-      .title { fill: #e6edf3; }
-      .copy { fill: #8d96a0; }
-      .bar { fill: #3fb950; }
+      .heading { fill: #e6edf3; }
+      .subtle, .label { fill: #8d96a0; }
+      .value { fill: #3fb950; }
+      .line { stroke: #30363d; }
     }
   </style>
-  <rect class="card" x="0.5" y="0.5" width="494" height="154" rx="6"/>
-  <g transform="translate(28 42)">
-    <rect class="bar" x="0" y="48" width="8" height="17" rx="2"/>
-    <rect class="bar" x="13" y="34" width="8" height="31" rx="2"/>
-    <rect class="bar" x="26" y="41" width="8" height="24" rx="2"/>
-    <rect class="bar" x="39" y="19" width="8" height="46" rx="2"/>
-    <rect class="bar" x="52" y="27" width="8" height="38" rx="2"/>
-    <rect class="bar" x="65" y="7" width="8" height="58" rx="2"/>
-    <rect class="bar" x="78" y="23" width="8" height="42" rx="2"/>
-  </g>
-  <text class="title" x="143" y="65">Public GitHub activity</text>
-  <text class="copy" x="143" y="91">Generated from public data · no rank · no language score</text>
+  <rect class="card" x="0.5" y="0.5" width="679" height="163" rx="7"/>
+  <text class="heading" x="28" y="35">Public GitHub activity</text>
+  <text class="subtle" x="28" y="56">Recent public events · refreshed weekly · no rank</text>
+
+  <text class="value" x="28" y="105">14</text>
+  <text class="label" x="28" y="128">Public repos</text>
+<path class="line" d="M 169 76 V 139"/>
+  <text class="value" x="187" y="105">3</text>
+  <text class="label" x="187" y="128">Active repos</text>
+<path class="line" d="M 328 76 V 139"/>
+  <text class="value" x="346" y="105">8</text>
+  <text class="label" x="346" y="128">Active days</text>
+<path class="line" d="M 487 76 V 139"/>
+  <text class="value" x="505" y="105">16</text>
+  <text class="label" x="505" y="128">Recent events</text>
 </svg>

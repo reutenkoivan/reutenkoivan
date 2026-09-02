@@ -29,12 +29,3 @@
 </picture>
 
 [Explore the toolchain →](https://github.com/reutenkoivan/typescript-cli-template)
-
-### Public GitHub activity
-
-<a href="https://github.com/reutenkoivan?tab=contributions">
-  <picture>
-    <source media="(max-width: 600px)" srcset="./profile/stats-mobile.svg">
-    <img width="840" src="./profile/stats.svg" alt="Ivan Reutenko's public activity over the last 12 weeks">
-  </picture>
-</a>

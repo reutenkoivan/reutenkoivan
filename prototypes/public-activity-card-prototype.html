@@ -1,0 +1,466 @@
+<!doctype html>
+<!-- PROTOTYPE — three Public activity card variants, switchable via ?variant=A|B|C, mounted in a README-like host. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Public activity card · UI prototype</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --canvas: #f6f8fa;
+        --surface: #ffffff;
+        --surface-subtle: #f6f8fa;
+        --surface-muted: #eaeef2;
+        --ink: #1f2328;
+        --muted: #656d76;
+        --line: #d0d7de;
+        --line-strong: #afb8c1;
+        --blue: #0969da;
+        --green-0: #ebedf0;
+        --green-1: #9be9a8;
+        --green-2: #40c463;
+        --green-3: #30a14e;
+        --green-4: #216e39;
+        --shadow: 0 8px 28px rgba(27, 31, 36, 0.08);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --canvas: #0d1117;
+          --surface: #0d1117;
+          --surface-subtle: #161b22;
+          --surface-muted: #21262d;
+          --ink: #e6edf3;
+          --muted: #8d96a0;
+          --line: #30363d;
+          --line-strong: #484f58;
+          --blue: #58a6ff;
+          --green-0: #161b22;
+          --green-1: #0e4429;
+          --green-2: #006d32;
+          --green-3: #26a641;
+          --green-4: #39d353;
+          --shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+        }
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        background: var(--canvas);
+        color: var(--ink);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .prototype-note {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--surface) 94%, transparent);
+        color: var(--muted);
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .readme-shell {
+        width: min(896px, calc(100% - 32px));
+        margin: 24px auto 96px;
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      h2, h3, p { margin-top: 0; }
+      h2 { margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 22px; }
+      h3 { margin-bottom: 6px; font-size: 17px; }
+
+      .context-tail { padding-bottom: 26px; color: var(--muted); }
+      .context-tail strong { color: var(--ink); }
+      .context-tail a { color: var(--blue); text-decoration: none; }
+      .context-tail a:hover { text-decoration: underline; }
+
+      .variant { display: none; }
+      .variant.is-active { display: block; }
+
+      .activity-card {
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface-subtle);
+      }
+
+      .card-kicker {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .date-range { color: var(--muted); font-size: 12px; }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0;
+      }
+
+      .metric { min-width: 0; }
+      .metric dt { color: var(--muted); font-size: 11px; }
+      .metric dd { margin: 2px 0 0; color: var(--ink); font-size: 20px; font-weight: 600; }
+
+      /* A — weekly rhythm: chart-first, metrics as a quiet footer. */
+      .card-a { padding: 20px 22px 16px; }
+      .a-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+      .bar-chart {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-items: end;
+        gap: 8px;
+        height: 92px;
+        margin-top: 18px;
+        padding: 0 4px 8px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .bar-week { display: grid; grid-template-rows: 1fr auto; align-items: end; gap: 5px; height: 100%; text-align: center; }
+      .bar-week i {
+        width: 100%;
+        min-height: 4px;
+        border-radius: 3px 3px 1px 1px;
+        background: var(--green-0);
+      }
+      .bar-week[data-days="1"] i { height: 18%; background: var(--green-1); }
+      .bar-week[data-days="2"] i { height: 34%; background: var(--green-2); }
+      .bar-week[data-days="3"] i { height: 50%; background: var(--green-3); }
+      .bar-week[data-days="4"] i { height: 64%; background: var(--green-3); }
+      .bar-week[data-days="5"] i,
+      .bar-week[data-days="6"] i,
+      .bar-week[data-days="7"] i { height: 82%; background: var(--green-4); }
+      .bar-week small { min-height: 15px; color: var(--muted); font-size: 9px; }
+      .bar-week:not([data-label]) small { visibility: hidden; }
+      .card-a .metrics { margin-top: 14px; }
+      .card-a .metric + .metric { padding-left: 18px; border-left: 1px solid var(--line); }
+
+      /* B — contribution matrix: day-level calendar with a metric sidebar. */
+      .card-b {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 184px;
+        min-height: 220px;
+      }
+
+      .b-main { padding: 20px 22px; }
+      .b-header { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+      .heatmap-wrap { margin-top: 21px; }
+      .heatmap {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(7, 11px);
+        grid-auto-columns: minmax(11px, 1fr);
+        gap: 4px;
+      }
+
+      .heatmap span { border-radius: 2px; background: var(--green-0); outline: 1px solid color-mix(in srgb, var(--line) 55%, transparent); }
+      .heatmap span[data-level="1"] { background: var(--green-1); outline-color: transparent; }
+      .heatmap span[data-level="2"] { background: var(--green-2); outline-color: transparent; }
+      .heatmap span[data-level="3"] { background: var(--green-3); outline-color: transparent; }
+      .heatmap span[data-level="4"] { background: var(--green-4); outline-color: transparent; }
+      .month-labels { display: flex; justify-content: space-between; margin-top: 8px; color: var(--muted); font-size: 10px; }
+
+      .b-aside {
+        display: grid;
+        align-content: center;
+        gap: 0;
+        padding: 18px;
+        border-left: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .b-aside .metrics { grid-template-columns: 1fr; }
+      .b-aside .metric { padding: 10px 0; }
+      .b-aside .metric + .metric { border-top: 1px solid var(--line); }
+
+      /* C — activity ledger: explicit week-by-week cells, no chart axes. */
+      .card-c { padding: 20px 22px; background: var(--surface); }
+      .c-header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 18px; }
+      .c-summary { color: var(--muted); font-size: 12px; text-align: right; }
+      .c-summary strong { color: var(--ink); font-size: 15px; }
+      .week-ledger {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 4px;
+        margin-top: 18px;
+      }
+
+      .ledger-week {
+        display: grid;
+        place-items: center;
+        min-height: 68px;
+        padding: 6px 3px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--surface-subtle);
+        text-align: center;
+      }
+
+      .ledger-week[data-days="1"] { border-color: var(--green-1); background: color-mix(in srgb, var(--green-1) 24%, var(--surface)); }
+      .ledger-week[data-days="2"] { border-color: var(--green-2); background: color-mix(in srgb, var(--green-2) 22%, var(--surface)); }
+      .ledger-week[data-days="3"],
+      .ledger-week[data-days="4"] { border-color: var(--green-3); background: color-mix(in srgb, var(--green-3) 20%, var(--surface)); }
+      .ledger-week strong { font-size: 17px; }
+      .ledger-week small { color: var(--muted); font-size: 8px; text-transform: uppercase; }
+      .card-c .metrics { display: none; }
+
+      .mobile-timeline { display: none; }
+
+      .prototype-switcher {
+        position: fixed;
+        z-index: 10;
+        left: 50%;
+        bottom: 20px;
+        display: grid;
+        grid-template-columns: 44px minmax(220px, auto) 44px;
+        align-items: center;
+        transform: translateX(-50%);
+        overflow: hidden;
+        border: 1px solid #424a53;
+        border-radius: 999px;
+        background: #24292f;
+        color: #ffffff;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+      }
+
+      .prototype-switcher button {
+        height: 44px;
+        border: 0;
+        background: transparent;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      .prototype-switcher button:hover { background: #424a53; }
+      .variant-label { padding: 0 12px; text-align: center; font-weight: 700; }
+
+      @media (max-width: 640px) {
+        .prototype-note { padding-inline: 10px; font-size: 10px; }
+        .readme-shell { width: min(100% - 16px, 896px); margin-top: 12px; padding: 20px 16px; }
+        .context-tail { display: none; }
+        h2 { font-size: 20px; }
+
+        .card-a { padding: 16px; }
+        .a-header, .b-header { display: block; }
+        .date-range { display: block; margin-top: 2px; }
+        .bar-chart { gap: 5px; height: 104px; margin-top: 16px; padding-inline: 0; }
+        .bar-week small { font-size: 8px; }
+        .card-a .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+        .card-a .metric { padding: 10px 0; }
+        .card-a .metric + .metric { padding-left: 12px; }
+        .card-a .metric:last-child { grid-column: 1 / -1; padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
+
+        .card-b { grid-template-columns: minmax(0, 1fr); }
+        .b-main { padding: 16px; }
+        .heatmap { grid-template-rows: repeat(7, 9px); grid-auto-columns: minmax(9px, 1fr); gap: 3px; }
+        .b-aside { padding: 0 16px 12px; border-top: 1px solid var(--line); border-left: 0; background: var(--surface-subtle); }
+        .b-aside .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .b-aside .metric { padding: 12px 6px 4px; }
+        .b-aside .metric + .metric { border-top: 0; border-left: 1px solid var(--line); }
+
+        .card-c { padding: 16px; }
+        .c-header { grid-template-columns: 1fr; gap: 4px; }
+        .c-summary { text-align: left; }
+        .week-ledger { display: none; }
+        .mobile-timeline { display: grid; gap: 5px; margin-top: 16px; }
+        .mobile-week { display: grid; grid-template-columns: 58px minmax(0, 1fr) 28px; align-items: center; gap: 8px; }
+        .mobile-week small { color: var(--muted); font-size: 9px; }
+        .mobile-week i { width: 4px; height: 7px; border-radius: 999px; background: var(--green-0); }
+        .mobile-week[data-days="1"] i { width: 22%; background: var(--green-1); }
+        .mobile-week[data-days="2"] i { width: 42%; background: var(--green-2); }
+        .mobile-week[data-days="3"] i { width: 62%; background: var(--green-3); }
+        .mobile-week[data-days="4"] i { width: 82%; background: var(--green-4); }
+        .mobile-week b { font-size: 10px; text-align: right; }
+
+        .prototype-switcher { bottom: 12px; width: min(calc(100% - 24px), 340px); grid-template-columns: 40px minmax(0, 1fr) 40px; }
+        .prototype-switcher button { height: 40px; }
+        .variant-label { min-width: 0; padding-inline: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      }
+
+      @media (max-width: 420px) {
+        .readme-shell { width: 100%; margin-top: 0; padding: 18px 14px 82px; border-inline: 0; border-radius: 0; box-shadow: none; }
+        .bar-chart { gap: 3px; }
+        .bar-week small { font-size: 7px; }
+        .b-aside .metric dt { font-size: 9px; }
+        .b-aside .metric dd { font-size: 17px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prototype-note">PROTOTYPE — three Public activity card compositions using the same 12-week data and GitHub-native visual language.</div>
+
+    <main class="readme-shell">
+      <div class="context-tail" aria-hidden="true">
+        <strong>typescript-cli-template</strong><br />
+        A scalable TypeScript CLI foundation with strict defaults, shared tooling, caching, tests, dependency checks, and documentation.<br />
+        <a href="#">Explore the toolchain →</a>
+      </div>
+
+      <h2>Public GitHub activity</h2>
+
+      <article class="variant" data-variant="A">
+        <section class="activity-card card-a" aria-label="Last 12 weeks public activity">
+          <header class="a-header">
+            <span class="card-kicker">Last 12 weeks</span>
+            <span class="date-range">Jun 15 – Sep 2, 2026</span>
+          </header>
+          <div class="bar-chart" role="img" aria-label="Active days per week: 0, 0, 0, 0, 1, 0, 1, 0, 2, 1, 2, 1">
+            <span class="bar-week" data-days="0" data-label><i></i><small>Jun 15</small></span>
+            <span class="bar-week" data-days="0"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="0"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="0"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="1" data-label><i></i><small>Jul 13</small></span>
+            <span class="bar-week" data-days="0"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="1"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="0"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="2" data-label><i></i><small>Aug 10</small></span>
+            <span class="bar-week" data-days="1"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="2"><i></i><small>·</small></span>
+            <span class="bar-week" data-days="1" data-label><i></i><small>Aug 31</small></span>
+          </div>
+          <dl class="metrics">
+            <div class="metric"><dt>Public repos</dt><dd>14</dd></div>
+            <div class="metric"><dt>Active repos</dt><dd>3</dd></div>
+            <div class="metric"><dt>Active days</dt><dd>8</dd></div>
+          </dl>
+        </section>
+      </article>
+
+      <article class="variant" data-variant="B">
+        <section class="activity-card card-b" aria-label="Last 12 weeks public activity">
+          <div class="b-main">
+            <header class="b-header">
+              <span class="card-kicker">Last 12 weeks</span>
+              <span class="date-range">Jun 15 – Sep 2, 2026</span>
+            </header>
+            <div class="heatmap-wrap">
+              <div class="heatmap" data-heatmap role="img" aria-label="Daily public activity across the last 12 weeks"></div>
+              <div class="month-labels"><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span></div>
+            </div>
+          </div>
+          <aside class="b-aside">
+            <dl class="metrics">
+              <div class="metric"><dt>Public repos</dt><dd>14</dd></div>
+              <div class="metric"><dt>Active repos</dt><dd>3</dd></div>
+              <div class="metric"><dt>Active days</dt><dd>8</dd></div>
+            </dl>
+          </aside>
+        </section>
+      </article>
+
+      <article class="variant" data-variant="C">
+        <section class="activity-card card-c" aria-label="Last 12 weeks public activity">
+          <header class="c-header">
+            <div><div class="card-kicker">Last 12 weeks</div><div class="date-range">Jun 15 – Sep 2, 2026</div></div>
+            <div class="c-summary"><strong>8 active days</strong><br />across 3 repositories · 14 public repos</div>
+          </header>
+          <div class="week-ledger" aria-label="Active days per week">
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Jun 15</small></span>
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Jun 22</small></span>
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Jun 29</small></span>
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Jul 06</small></span>
+            <span class="ledger-week" data-days="1"><strong>1</strong><small>Jul 13</small></span>
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Jul 20</small></span>
+            <span class="ledger-week" data-days="1"><strong>1</strong><small>Jul 27</small></span>
+            <span class="ledger-week" data-days="0"><strong>0</strong><small>Aug 03</small></span>
+            <span class="ledger-week" data-days="2"><strong>2</strong><small>Aug 10</small></span>
+            <span class="ledger-week" data-days="1"><strong>1</strong><small>Aug 17</small></span>
+            <span class="ledger-week" data-days="2"><strong>2</strong><small>Aug 24</small></span>
+            <span class="ledger-week" data-days="1"><strong>1</strong><small>Aug 31</small></span>
+          </div>
+          <div class="mobile-timeline" aria-label="Active days per week">
+            <div class="mobile-week" data-days="0"><small>Jun 15</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="0"><small>Jun 22</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="0"><small>Jun 29</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="0"><small>Jul 06</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="1"><small>Jul 13</small><i></i><b>1</b></div>
+            <div class="mobile-week" data-days="0"><small>Jul 20</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="1"><small>Jul 27</small><i></i><b>1</b></div>
+            <div class="mobile-week" data-days="0"><small>Aug 03</small><i></i><b>0</b></div>
+            <div class="mobile-week" data-days="2"><small>Aug 10</small><i></i><b>2</b></div>
+            <div class="mobile-week" data-days="1"><small>Aug 17</small><i></i><b>1</b></div>
+            <div class="mobile-week" data-days="2"><small>Aug 24</small><i></i><b>2</b></div>
+            <div class="mobile-week" data-days="1"><small>Aug 31</small><i></i><b>1</b></div>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <nav class="prototype-switcher" aria-label="Prototype variants">
+      <button type="button" data-direction="-1" aria-label="Previous variant">←</button>
+      <div class="variant-label" aria-live="polite"></div>
+      <button type="button" data-direction="1" aria-label="Next variant">→</button>
+    </nav>
+
+    <script>
+      const variants = [
+        { key: "A", name: "Weekly rhythm" },
+        { key: "B", name: "Contribution matrix" },
+        { key: "C", name: "Activity ledger" },
+      ];
+
+      const activeDaysByWeek = [[], [], [], [], [2], [], [4], [], [1, 5], [3], [0, 4], [2]];
+
+      document.querySelectorAll("[data-heatmap]").forEach((heatmap) => {
+        activeDaysByWeek.forEach((activeDays, weekIndex) => {
+          for (let dayIndex = 0; dayIndex < 7; dayIndex += 1) {
+            const cell = document.createElement("span");
+            const activityIndex = activeDays.indexOf(dayIndex);
+            if (activityIndex >= 0) cell.dataset.level = String(Math.min(4, 1 + ((weekIndex + activityIndex) % 4)));
+            heatmap.append(cell);
+          }
+        });
+      });
+
+      function selectedIndex() {
+        const requested = new URLSearchParams(location.search).get("variant")?.toUpperCase();
+        const index = variants.findIndex(({ key }) => key === requested);
+        return index < 0 ? 0 : index;
+      }
+
+      function render(index) {
+        const variant = variants[index];
+        document.querySelectorAll(".variant").forEach((element) => {
+          element.classList.toggle("is-active", element.dataset.variant === variant.key);
+        });
+        document.querySelector(".variant-label").textContent = `${variant.key} — ${variant.name}`;
+        const url = new URL(location.href);
+        url.searchParams.set("variant", variant.key);
+        history.replaceState({}, "", url);
+      }
+
+      function cycle(delta) {
+        const next = (selectedIndex() + delta + variants.length) % variants.length;
+        render(next);
+      }
+
+      document.querySelectorAll("[data-direction]").forEach((button) => {
+        button.addEventListener("click", () => cycle(Number(button.dataset.direction)));
+      });
+
+      addEventListener("keydown", (event) => {
+        const editing = event.target.matches("input, textarea, [contenteditable]");
+        if (editing || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        cycle(event.key === "ArrowLeft" ? -1 : 1);
+      });
+
+      render(selectedIndex());
+    </script>
+  </body>
+</html>

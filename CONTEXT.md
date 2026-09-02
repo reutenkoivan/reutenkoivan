@@ -15,3 +15,7 @@ _Avoid_: Claiming that any title is current, presenting all three as simultaneou
 **Professional focus**:
 Conceptual challenges in frontend development, especially architecture, developer experience, and scalability.
 _Avoid_: Framework-specific implementation work as the primary positioning
+
+**Public activity card**:
+The secondary profile element that summarises recent public GitHub activity without ranking or language scoring. It supports the engineering evidence rather than serving as the primary proof of expertise.
+_Avoid_: Generated widget, stats dashboard, contribution score

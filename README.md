@@ -53,5 +53,8 @@ A scalable TypeScript CLI foundation with strict defaults, shared tooling, cachi
 ### Public GitHub activity
 
 <a href="https://github.com/reutenkoivan?tab=contributions">
-  <img src="./profile/stats.svg" alt="Ivan Reutenko's public GitHub activity summary">
+  <picture>
+    <source media="(max-width: 600px)" srcset="./profile/stats-mobile.svg">
+    <img width="840" src="./profile/stats.svg" alt="Ivan Reutenko's public activity over the last 12 weeks">
+  </picture>
 </a>

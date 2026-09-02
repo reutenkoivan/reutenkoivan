@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="320" height="266" viewBox="0 0 320 266">
+  <title id="title">Public GitHub activity for reutenkoivan</title>
+  <desc id="desc">8 active days across 3 repositories from Jun 15 – Sep 2, 2026. 14 public repositories. Weekly active day counts: 0, 0, 0, 0, 0, 0, 0, 4, 0, 3, 1, 0.</desc>
+  <style>
+    .card { fill: #ffffff; stroke: #d0d7de; }
+    .kicker { fill: #1f2328; font: 600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .date, .summary, .week-label { fill: #656d76; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .date { font-size: 12px; }
+    .summary { font-size: 11px; }
+    .strong { fill: #1f2328; font-size: 15px; font-weight: 600; }
+    .week-label { font-size: 9px; }
+    .track, .bar { fill: #ebedf0; }
+    .level-1 { fill: #9be9a8; }
+    .level-2 { fill: #40c463; }
+    .level-3 { fill: #30a14e; }
+    .level-4 { fill: #216e39; }
+    .week-count { fill: #1f2328; font: 600 10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .card { fill: #0d1117; stroke: #30363d; }
+      .kicker, .strong, .week-count { fill: #e6edf3; }
+      .date, .summary, .week-label { fill: #8d96a0; }
+      .track, .bar { fill: #161b22; }
+      .level-1 { fill: #0e4429; }
+      .level-2 { fill: #006d32; }
+      .level-3 { fill: #26a641; }
+      .level-4 { fill: #39d353; }
+    }
+  </style>
+  <rect class="card" x="0.5" y="0.5" width="319" height="265" rx="7"/>
+  <text class="kicker" x="16" y="24">Last 12 weeks</text>
+  <text class="date" x="16" y="42">Jun 15 – Sep 2, 2026</text>
+  <text class="summary strong" x="16" y="66">8 active days</text>
+  <text class="summary" x="16" y="83">across 3 repositories · 14 public repos</text>
+  <g>
+    <text class="week-label" x="16" y="108">Jun 15</text>
+    <rect class="track" x="76" y="101" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="101" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="108" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="121">Jun 22</text>
+    <rect class="track" x="76" y="114" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="114" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="121" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="134">Jun 29</text>
+    <rect class="track" x="76" y="127" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="127" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="134" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="147">Jul 6</text>
+    <rect class="track" x="76" y="140" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="140" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="147" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="160">Jul 13</text>
+    <rect class="track" x="76" y="153" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="153" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="160" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="173">Jul 20</text>
+    <rect class="track" x="76" y="166" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="166" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="173" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="186">Jul 27</text>
+    <rect class="track" x="76" y="179" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="179" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="186" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="199">Aug 3</text>
+    <rect class="track" x="76" y="192" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-3" x="76" y="192" width="112.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="199" text-anchor="end">4</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="212">Aug 10</text>
+    <rect class="track" x="76" y="205" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="205" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="212" text-anchor="end">0</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="225">Aug 17</text>
+    <rect class="track" x="76" y="218" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-3" x="76" y="218" width="86.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="225" text-anchor="end">3</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="238">Aug 24</text>
+    <rect class="track" x="76" y="231" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-1" x="76" y="231" width="34.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="238" text-anchor="end">1</text>
+  </g>
+  <g>
+    <text class="week-label" x="16" y="251">Aug 31</text>
+    <rect class="track" x="76" y="244" width="190" height="7" rx="3.5"/>
+    <rect class="bar level-0" x="76" y="244" width="4.00" height="7" rx="3.5"/>
+    <text class="week-count" x="304" y="251" text-anchor="end">0</text>
+  </g>
+</svg>

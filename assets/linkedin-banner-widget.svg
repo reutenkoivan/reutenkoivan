@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="1584" height="396" viewBox="0 0 1584 396">
+  <title id="title">LinkedIn banner development focus widget</title>
+  <desc id="desc">A transparent 1584 by 396 SVG layer containing the development focus card and its text.</desc>
+  <style>
+    .panel { fill: #f6f8f7; fill-opacity: .92; stroke: #b7cac1; }
+    .kicker { fill: #65786f; font: 700 13px "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 1.6px; }
+    .index { fill: #65786f; font: 700 13px Menlo, Monaco, Consolas, monospace; }
+    .label { fill: #29483a; font: 700 19px "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .rule { stroke: #c8d7d0; stroke-width: 1; }
+  </style>
+
+  <g aria-label="Professional focus" transform="translate(20 0)">
+    <rect class="panel" x="1028.5" y="38.5" width="497" height="286" rx="12"/>
+    <text class="kicker" x="1060" y="72">DEVELOPMENT FOCUS</text>
+
+    <text class="index" x="1060" y="113">01</text>
+    <rect x="1098" y="96" width="4" height="22" rx="2" fill="#315443"/>
+    <text class="label" x="1120" y="113">Architecture</text>
+    <path class="rule" d="M1060 133H1494"/>
+
+    <text class="index" x="1060" y="163">02</text>
+    <rect x="1098" y="146" width="4" height="22" rx="2" fill="#537e63"/>
+    <text class="label" x="1120" y="163">Team communication &amp; alignment</text>
+    <path class="rule" d="M1060 183H1494"/>
+
+    <text class="index" x="1060" y="213">03</text>
+    <rect x="1098" y="196" width="4" height="22" rx="2" fill="#78a987"/>
+    <text class="label" x="1120" y="213">Developer experience</text>
+    <path class="rule" d="M1060 233H1494"/>
+
+    <text class="index" x="1060" y="263">04</text>
+    <rect x="1098" y="246" width="4" height="22" rx="2" fill="#8fba98"/>
+    <text class="label" x="1120" y="263">Systems that scale and stay reliable</text>
+  </g>
+</svg>

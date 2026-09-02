@@ -1,0 +1,324 @@
+<!doctype html>
+<!--
+  ARCHIVED PROTOTYPE — accepted Variant A.
+  This file is the visual source used to implement the GitHub-safe README.
+  Production intentionally uses Markdown and local SVG assets instead of this CSS.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ivan Reutenko · GitHub profile README prototype</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --canvas: #f6f8fa;
+        --surface: #ffffff;
+        --surface-2: #f6f8fa;
+        --ink: #1f2328;
+        --muted: #656d76;
+        --line: #d0d7de;
+        --blue: #0969da;
+        --green: #1a7f37;
+        --shadow: 0 8px 28px rgba(27, 31, 36, 0.08);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --canvas: #0d1117;
+          --surface: #161b22;
+          --surface-2: #0d1117;
+          --ink: #e6edf3;
+          --muted: #8d96a0;
+          --line: #30363d;
+          --blue: #58a6ff;
+          --green: #3fb950;
+          --shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+        }
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        background: var(--canvas);
+        color: var(--ink);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      a { color: var(--blue); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .prototype-note {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 9px 20px;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        color: var(--muted);
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .github-shell {
+        width: min(980px, calc(100% - 32px));
+        margin: 26px auto 64px;
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 8px; font-size: clamp(30px, 5vw, 48px); line-height: 1.08; }
+      h2 { margin-bottom: 16px; font-size: 22px; }
+      h3 { margin-bottom: 6px; font-size: 17px; }
+
+      .eyebrow {
+        color: var(--blue);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .lede {
+        max-width: 720px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .history { color: var(--muted); }
+      .section { margin-top: 34px; }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 11px;
+        border-radius: 6px;
+        background: #0a66c2;
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      .cta:hover { color: #ffffff; text-decoration: none; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 32px;
+        align-items: end;
+      }
+
+      .focus {
+        display: flex;
+        gap: 26px;
+        margin-top: 26px;
+      }
+
+      .focus > div {
+        flex: 1;
+        padding-top: 10px;
+        border-top: 3px solid var(--blue);
+      }
+
+      .focus p { margin: 0; color: var(--muted); font-size: 13px; }
+
+      .work-header {
+        padding-bottom: 17px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .work-header h2 { margin: 0; }
+
+      .work-thesis {
+        max-width: 760px;
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .work-thesis strong { color: var(--ink); }
+
+      .work-row {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+        padding: 26px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .work-index {
+        color: var(--muted);
+        font: 700 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .work-copy { min-width: 0; }
+      .work-copy h3 { margin-bottom: 8px; }
+      .work-copy p { margin: 0 0 10px; color: var(--muted); }
+
+      .work-signals {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        margin: 14px 0 12px;
+      }
+
+      .work-signals span {
+        min-width: 0;
+        padding: 5px 8px;
+        border-left: 3px solid var(--green);
+        border-radius: 5px;
+        background: var(--surface-2);
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .work-signals i { color: var(--muted); font-style: normal; }
+
+      .stats-widget {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 18px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--surface-2);
+      }
+
+      .spark { display: flex; align-items: end; gap: 4px; height: 42px; }
+      .spark i { width: 7px; border-radius: 2px 2px 0 0; background: var(--green); }
+      .stats-widget strong { display: block; font-size: 14px; }
+      .stats-widget small { color: var(--muted); }
+
+      @media (max-width: 900px) {
+        .github-shell { width: min(100% - 24px, 980px); padding: 26px 24px; }
+        .hero { gap: 22px; }
+        .focus { gap: 18px; }
+        .work-row { grid-template-columns: 38px minmax(0, 1fr); gap: 16px; }
+      }
+
+      @media (max-width: 640px) {
+        .prototype-note { padding-inline: 12px; font-size: 11px; }
+        .github-shell { width: min(100% - 16px, 980px); margin-top: 12px; padding: 20px 16px; }
+        h1 { font-size: 34px; }
+        .lede { font-size: 16px; }
+        .section { margin-top: 28px; }
+        .hero { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+        .hero .cta { width: max-content; max-width: 100%; justify-self: start; }
+        .focus { flex-direction: column; gap: 12px; margin-top: 22px; }
+        .focus > div { width: 100%; padding-top: 8px; border-top-width: 2px; }
+        .work-header { padding-bottom: 14px; }
+        .work-thesis { max-width: 100%; margin-top: 8px; line-height: 1.55; }
+        .work-row { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 20px 0; }
+        .work-index { color: var(--blue); }
+        .work-copy p, .work-copy a { overflow-wrap: anywhere; }
+        .work-signals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+        .work-signals span { width: 100%; overflow-wrap: anywhere; }
+        .work-signals i { display: none; }
+        .stats-widget { grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 14px; }
+        .spark { gap: 3px; }
+        .spark i { width: 5px; }
+        .stats-widget small { overflow-wrap: anywhere; }
+      }
+
+      @media (max-width: 420px) {
+        .github-shell {
+          width: 100%;
+          margin-top: 0;
+          padding: 18px 14px;
+          border-inline: 0;
+          border-radius: 0;
+          box-shadow: none;
+        }
+
+        h1 { font-size: 30px; }
+        .work-row { grid-template-columns: 24px minmax(0, 1fr); gap: 8px; }
+        .work-signals { grid-template-columns: minmax(0, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prototype-note">ARCHIVED PROTOTYPE — accepted Variant A, promoted to GitHub-safe Markdown and local SVG assets.</div>
+
+    <main class="github-shell">
+      <header class="hero">
+        <div>
+          <div class="eyebrow">Frontend systems &amp; engineering leadership</div>
+          <h1>Ivan Reutenko</h1>
+          <p class="lede">Most recently a Frontend Architect, focused on architecture, developer experience, and systems that remain understandable as teams and products scale.</p>
+          <p class="history">Previously Tech Lead and Team Lead.</p>
+        </div>
+        <a class="cta" href="https://www.linkedin.com/in/ivan-reutenko/">in&nbsp;&nbsp;Connect</a>
+      </header>
+
+      <section class="focus" aria-label="Focus areas">
+        <div><h3>Architecture</h3><p>Boundaries, contracts, evolvability.</p></div>
+        <div><h3>Developer experience</h3><p>Fast feedback and paved paths.</p></div>
+        <div><h3>Scalability</h3><p>Code and practices that survive growth.</p></div>
+      </section>
+
+      <section class="section">
+        <header class="work-header">
+          <h2>Selected engineering work</h2>
+          <p class="work-thesis">
+            <strong>The codebase is the proof.</strong>
+            These projects show how I turn architectural decisions into implementation constraints, and developer experience into reliable tooling and feedback loops.
+            The goal is not only clean structure, but systems that teams can extend, validate, and evolve with confidence.
+          </p>
+        </header>
+
+        <article class="work-row">
+          <div class="work-index">01</div>
+          <div class="work-copy">
+            <div class="eyebrow">Implementation quality</div>
+            <h3>mk-combos</h3>
+            <p>A local-first React codebase where ownership boundaries are executable constraints, not just documentation.</p>
+            <div class="work-signals" aria-label="mk-combos implementation flow">
+              <span>Domain scopes</span><i aria-hidden="true">→</i>
+              <span>Shared contracts</span><i aria-hidden="true">→</i>
+              <span>Architecture checks</span><i aria-hidden="true">→</i>
+              <span>CI/CD</span>
+            </div>
+            <a href="https://github.com/reutenkoivan/mk-combos">Explore the implementation →</a>
+          </div>
+        </article>
+
+        <article class="work-row">
+          <div class="work-index">02</div>
+          <div class="work-copy">
+            <div class="eyebrow">Developer experience</div>
+            <h3>typescript-cli-template</h3>
+            <p>A scalable TypeScript CLI foundation with strict defaults, shared tooling, caching, tests, dependency checks, and documentation.</p>
+            <div class="work-signals" aria-label="typescript-cli-template engineering flow">
+              <span>Turborepo</span><i aria-hidden="true">→</i>
+              <span>Strict TypeScript</span><i aria-hidden="true">→</i>
+              <span>Dependency checks</span><i aria-hidden="true">→</i>
+              <span>Tests + docs</span>
+            </div>
+            <a href="https://github.com/reutenkoivan/typescript-cli-template">Explore the toolchain →</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="section stats-widget" aria-label="GitHub activity placeholder">
+        <div class="spark" aria-hidden="true">
+          <i style="height: 28%"></i><i style="height: 52%"></i><i style="height: 40%"></i>
+          <i style="height: 78%"></i><i style="height: 62%"></i><i style="height: 92%"></i><i style="height: 70%"></i>
+        </div>
+        <div><strong>GitHub activity</strong><small>Static SVG generated by GitHub Actions · no rank · no Top Languages</small></div>
+      </section>
+    </main>
+  </body>
+</html>

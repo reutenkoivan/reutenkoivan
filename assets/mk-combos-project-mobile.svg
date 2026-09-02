@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="320" height="266" viewBox="0 0 320 266">
+  <title id="title">mk-combos — implementation quality</title>
+  <desc id="desc">A local-first React codebase where ownership boundaries are executable constraints, not just documentation. Evidence: domain scopes, shared contracts, architecture checks, and CI/CD quality gates.</desc>
+  <style>
+    .card { fill: #ffffff; stroke: #d0d7de; }
+    .cell { fill: #f6f8fa; stroke: #d0d7de; }
+    .green { fill: #dafbe1; stroke: #9be9a8; }
+    .kicker, .index { fill: #656d76; font: 700 9px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0.9px; }
+    .index { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; letter-spacing: 0; }
+    .name { fill: #1f2328; font: 650 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .summary { fill: #656d76; font: 400 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .label { fill: #1f2328; font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .detail { fill: #656d76; font: 400 9px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .card { fill: #0d1117; stroke: #30363d; }
+      .cell { fill: #161b22; stroke: #30363d; }
+      .green { fill: #0e4429; stroke: #006d32; }
+      .kicker, .index, .summary, .detail { fill: #8d96a0; }
+      .name, .label { fill: #e6edf3; }
+    }
+  </style>
+  <rect class="card" x="0.5" y="0.5" width="319" height="265" rx="7"/>
+  <text class="kicker" x="16" y="24">IMPLEMENTATION QUALITY</text>
+  <text class="index" x="304" y="24" text-anchor="end">01</text>
+  <text class="name" x="16" y="51">mk-combos</text>
+  <text class="summary" x="16" y="78">A local-first React codebase where ownership</text>
+  <text class="summary" x="16" y="96">boundaries are executable constraints, not just</text>
+  <text class="summary" x="16" y="114">documentation.</text>
+
+  <rect class="cell" x="16" y="136" width="140" height="54" rx="4"/>
+  <text class="label" x="27" y="159">Domain scopes</text>
+  <text class="detail" x="27" y="176">Owned boundaries</text>
+
+  <rect class="cell green" x="164" y="136" width="140" height="54" rx="4"/>
+  <text class="label" x="175" y="159">Shared contracts</text>
+  <text class="detail" x="175" y="176">Explicit seams</text>
+
+  <rect class="cell" x="16" y="196" width="140" height="54" rx="4"/>
+  <text class="label" x="27" y="219">Architecture checks</text>
+  <text class="detail" x="27" y="236">Automated rules</text>
+
+  <rect class="cell green" x="164" y="196" width="140" height="54" rx="4"/>
+  <text class="label" x="175" y="219">CI/CD</text>
+  <text class="detail" x="175" y="236">Quality gates</text>
+</svg>

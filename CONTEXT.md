@@ -19,3 +19,7 @@ _Avoid_: Framework-specific implementation work as the primary positioning
 **Public activity card**:
 The secondary profile element that summarises recent public GitHub activity without ranking or language scoring. It supports the engineering evidence rather than serving as the primary proof of expertise.
 _Avoid_: Generated widget, stats dashboard, contribution score
+
+**Profile visual language**:
+Modular ledger cards use GitHub-native neutral surfaces, restrained contribution greens, explicit evidence cells, dedicated desktop and mobile compositions, and an automatic dark theme.
+_Avoid_: One large poster-style dashboard, decorative gradients, badge walls, desktop cards merely scaled down on mobile

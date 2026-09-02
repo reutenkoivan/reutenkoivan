@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="840" height="176" viewBox="0 0 840 176">
+  <title id="title">Ivan Reutenko — Frontend Architect</title>
+  <desc id="desc">Most recently Frontend Architect; previously Tech Lead and Team Lead. Focused on architecture, developer experience, and scalability.</desc>
+  <style>
+    .card { fill: #ffffff; stroke: #d0d7de; }
+    .cell { fill: #f6f8fa; stroke: #d0d7de; }
+    .green { fill: #dafbe1; stroke: #9be9a8; }
+    .kicker { fill: #656d76; font: 700 10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 1px; }
+    .role { fill: #1f2328; font: 650 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .history { fill: #656d76; font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .history-strong { fill: #1f2328; font-weight: 600; }
+    .label { fill: #1f2328; font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .detail { fill: #656d76; font: 400 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .card { fill: #0d1117; stroke: #30363d; }
+      .cell { fill: #161b22; stroke: #30363d; }
+      .green { fill: #0e4429; stroke: #006d32; }
+      .kicker, .history, .detail { fill: #8d96a0; }
+      .role, .history-strong, .label { fill: #e6edf3; }
+    }
+  </style>
+  <rect class="card" x="0.5" y="0.5" width="839" height="175" rx="7"/>
+  <text class="kicker" x="22" y="27">MOST RECENTLY</text>
+  <text class="role" x="22" y="55">Frontend Architect</text>
+  <text class="history" x="818" y="53" text-anchor="end">Previously <tspan class="history-strong">Tech Lead</tspan> and <tspan class="history-strong">Team Lead</tspan></text>
+
+  <rect class="cell green" x="22" y="78" width="262" height="76" rx="4"/>
+  <text class="label" x="36" y="107">Architecture</text>
+  <text class="detail" x="36" y="129">Boundaries, contracts, evolvability</text>
+
+  <rect class="cell" x="289" y="78" width="262" height="76" rx="4"/>
+  <text class="label" x="303" y="107">Developer experience</text>
+  <text class="detail" x="303" y="129">Fast feedback and paved paths</text>
+
+  <rect class="cell green" x="556" y="78" width="262" height="76" rx="4"/>
+  <text class="label" x="570" y="107">Scalability</text>
+  <text class="detail" x="570" y="129">Systems that survive growth</text>
+</svg>

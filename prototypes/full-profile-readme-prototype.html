@@ -1,0 +1,454 @@
+<!doctype html>
+<!-- PROTOTYPE — three full-profile README compositions, switchable via ?variant=A|B|C, mounted in a GitHub-like host. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Full profile README · UI prototype</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --canvas: #f6f8fa;
+        --surface: #ffffff;
+        --subtle: #f6f8fa;
+        --muted-surface: #eaeef2;
+        --ink: #1f2328;
+        --muted: #656d76;
+        --line: #d0d7de;
+        --blue: #0969da;
+        --linkedin: #0a66c2;
+        --green-1: #dafbe1;
+        --green-2: #aceebb;
+        --green-3: #6fdd8b;
+        --green-border-1: #9be9a8;
+        --green-border-2: #40c463;
+        --green-border-3: #30a14e;
+        --shadow: 0 8px 28px rgba(27, 31, 36, 0.08);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --canvas: #0d1117;
+          --surface: #0d1117;
+          --subtle: #161b22;
+          --muted-surface: #21262d;
+          --ink: #e6edf3;
+          --muted: #8d96a0;
+          --line: #30363d;
+          --blue: #58a6ff;
+          --green-1: #0e4429;
+          --green-2: #006d32;
+          --green-3: #26a641;
+          --green-border-1: #0e4429;
+          --green-border-2: #006d32;
+          --green-border-3: #26a641;
+          --shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: var(--canvas);
+        color: var(--ink);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .prototype-note {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        padding: 8px 14px;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--surface) 94%, transparent);
+        color: var(--muted);
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+
+      .readme-shell {
+        width: min(896px, calc(100% - 32px));
+        margin: 24px auto 96px;
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .variant { display: none; }
+      .variant.is-active { display: block; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 12px; font-size: 32px; line-height: 1.2; }
+      h2 { margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: 22px; }
+      h3 { margin-bottom: 6px; font-size: 18px; }
+      a { color: var(--blue); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .kicker {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .connect {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        margin-top: 14px;
+        padding: 0 14px;
+        border-radius: 6px;
+        background: var(--linkedin);
+        color: #ffffff;
+        font-weight: 700;
+      }
+      .connect:hover { color: #ffffff; text-decoration: none; filter: brightness(1.06); }
+
+      .surface {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface);
+      }
+
+      .evidence-cell {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--subtle);
+      }
+
+      .evidence-cell.is-green { border-color: var(--green-border-1); background: var(--green-1); }
+      .evidence-cell strong { display: block; font-size: 14px; }
+      .evidence-cell span { color: var(--muted); font-size: 11px; }
+
+      .activity-picture, .activity-preview { display: block; width: 100%; }
+      .activity-preview { height: auto; }
+
+      /* A — modular ledger: separate SVG-ready cards for identity, approach, and each project. */
+      .a-identity { padding: 22px; }
+      .a-identity-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; }
+      .a-role { margin-top: 3px; font-size: 24px; font-weight: 650; }
+      .a-history { color: var(--muted); text-align: right; }
+      .a-history strong { color: var(--ink); }
+      .a-focus { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; margin-top: 20px; }
+      .a-focus .evidence-cell { min-height: 72px; padding: 12px; }
+
+      .a-manifesto { display: grid; grid-template-columns: 220px minmax(0, 1fr); margin-top: 16px; }
+      .a-manifesto-title { padding: 20px; background: var(--subtle); }
+      .a-manifesto-title strong { display: block; margin-top: 4px; font-size: 20px; }
+      .a-manifesto-copy { padding: 20px; border-left: 1px solid var(--line); color: var(--muted); }
+
+      .a-project { position: relative; margin-top: 14px; padding: 20px; }
+      .a-project-head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 20px; }
+      .a-project-head > div { padding-right: 36px; }
+      .a-project-summary { max-width: 520px; margin: 8px 0 0; color: var(--muted); }
+      .a-index { position: absolute; top: 20px; right: 20px; color: var(--muted); font: 700 16px ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .a-ledger { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin-top: 18px; }
+      .a-ledger .evidence-cell { min-height: 58px; padding: 10px; }
+      .project-link { display: inline-block; margin-top: 10px; font-weight: 600; }
+
+      /* B — unified profile board: one dense SVG-ready dashboard, links remain below. */
+      .b-board { padding: 24px; background: var(--surface); }
+      .b-top { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; }
+      .b-lead { margin-top: 6px; color: var(--muted); font-size: 16px; }
+      .b-current { margin-top: 18px; padding-left: 12px; border-left: 4px solid var(--green-border-3); }
+      .b-current strong { display: block; font-size: 20px; }
+      .b-principles { display: grid; gap: 5px; }
+      .b-principles .evidence-cell { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 10px 12px; }
+      .b-principles .evidence-cell strong { font-size: 12px; }
+
+      .b-work-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
+      .b-work-title strong { font-size: 19px; }
+      .b-work-title span { color: var(--muted); font-size: 11px; }
+      .b-project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+      .b-project { padding: 16px; border: 1px solid var(--line); border-radius: 5px; background: var(--subtle); }
+      .b-project p { min-height: 62px; margin: 8px 0 14px; color: var(--muted); }
+      .b-tags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+      .b-tags span { padding: 7px 8px; border: 1px solid var(--green-border-1); border-radius: 4px; background: var(--green-1); font-size: 11px; font-weight: 600; }
+      .b-links { display: flex; gap: 18px; margin: 12px 2px 0; }
+
+      /* C — evidence narrative: native prose drives reading; SVG ledgers only prove claims. */
+      .c-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr); gap: 34px; align-items: end; }
+      .c-hero p { color: var(--muted); font-size: 16px; }
+      .c-focus-rail { display: grid; gap: 5px; }
+      .c-focus-rail .evidence-cell { padding: 11px 12px; border-left: 4px solid var(--green-border-2); }
+      .c-intro { max-width: 720px; color: var(--muted); font-size: 16px; }
+      .c-intro strong { color: var(--ink); }
+
+      .c-project-row {
+        display: grid;
+        grid-template-columns: 52px minmax(250px, 0.9fr) minmax(360px, 1.1fr);
+        gap: 20px;
+        align-items: center;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+      }
+      .c-project-row:last-of-type { border-bottom: 1px solid var(--line); }
+      .c-number { align-self: start; color: var(--muted); font: 700 16px ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .c-project-copy p { margin: 8px 0 10px; color: var(--muted); }
+      .c-evidence { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
+      .c-evidence .evidence-cell { min-height: 56px; padding: 9px 10px; }
+
+      .prototype-switcher {
+        position: fixed;
+        z-index: 10;
+        left: 50%;
+        bottom: 20px;
+        display: grid;
+        grid-template-columns: 44px minmax(230px, auto) 44px;
+        align-items: center;
+        transform: translateX(-50%);
+        overflow: hidden;
+        border: 1px solid #424a53;
+        border-radius: 999px;
+        background: #24292f;
+        color: #ffffff;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+      }
+      .prototype-switcher button { height: 44px; border: 0; background: transparent; color: #ffffff; cursor: pointer; font-size: 20px; }
+      .prototype-switcher button:hover { background: #424a53; }
+      .variant-label { min-width: 0; padding: 0 12px; overflow: hidden; font-weight: 700; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+
+      @media (max-width: 720px) {
+        .prototype-note { font-size: 10px; }
+        .readme-shell { width: min(100% - 16px, 896px); margin-top: 12px; padding: 20px 16px 82px; }
+        h1 { font-size: 28px; }
+        h2 { margin-top: 28px; font-size: 20px; }
+
+        .a-identity-head, .a-project-head { grid-template-columns: 1fr; gap: 8px; }
+        .a-history { text-align: left; }
+        .a-focus { grid-template-columns: 1fr; }
+        .a-focus .evidence-cell { min-height: 0; }
+        .a-manifesto { grid-template-columns: 1fr; }
+        .a-manifesto-copy { border-top: 1px solid var(--line); border-left: 0; }
+        .a-ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+        .b-top { grid-template-columns: 1fr; gap: 20px; }
+        .b-principles .evidence-cell { grid-template-columns: 94px 1fr; }
+        .b-work-title { display: block; }
+        .b-work-title span { display: block; margin-top: 4px; }
+        .b-project-grid { grid-template-columns: 1fr; }
+        .b-project p { min-height: 0; }
+        .b-links { display: grid; gap: 6px; }
+
+        .c-hero { grid-template-columns: 1fr; gap: 18px; }
+        .c-project-row { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+        .c-evidence { grid-column: 2; }
+
+        .prototype-switcher { bottom: 12px; width: min(calc(100% - 24px), 350px); grid-template-columns: 40px minmax(0, 1fr) 40px; }
+        .prototype-switcher button { height: 40px; }
+      }
+
+      @media (max-width: 420px) {
+        .readme-shell { width: 100%; margin-top: 0; border-inline: 0; border-radius: 0; box-shadow: none; }
+        .a-identity, .a-project, .b-board { padding: 16px; }
+        .a-index { top: 16px; right: 16px; }
+        .a-role { font-size: 21px; }
+        .a-ledger, .b-tags, .c-evidence { grid-template-columns: 1fr; }
+        .c-project-row { grid-template-columns: 30px minmax(0, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prototype-note">PROTOTYPE — three ways to extend the Activity ledger language across the full profile README.</div>
+
+    <main class="readme-shell">
+      <section class="variant" data-variant="A">
+        <h1>Ivan Reutenko</h1>
+        <div class="surface a-identity">
+          <div class="a-identity-head">
+            <div>
+              <div class="kicker">Most recently</div>
+              <div class="a-role">Frontend Architect</div>
+            </div>
+            <div class="a-history">Previously <strong>Tech Lead</strong> and <strong>Team Lead</strong></div>
+          </div>
+          <div class="a-focus">
+            <div class="evidence-cell is-green"><strong>Architecture</strong><span>Boundaries, contracts, evolvability</span></div>
+            <div class="evidence-cell"><strong>Developer experience</strong><span>Fast feedback and paved paths</span></div>
+            <div class="evidence-cell is-green"><strong>Scalability</strong><span>Systems that survive growth</span></div>
+          </div>
+        </div>
+        <a class="connect" href="#">Connect on LinkedIn</a>
+
+        <h2>Selected engineering work</h2>
+        <div class="surface a-manifesto">
+          <div class="a-manifesto-title"><span class="kicker">Engineering approach</span><strong>The codebase is the proof.</strong></div>
+          <div class="a-manifesto-copy">Architectural decisions become implementation constraints. Developer experience becomes reliable tooling and feedback loops. The result is software teams can extend, validate, and evolve with confidence.</div>
+        </div>
+
+        <article class="surface a-project">
+          <div class="a-project-head">
+            <div><span class="kicker">Implementation quality</span><h3>mk-combos</h3><p class="a-project-summary">A local-first React codebase where ownership boundaries are executable constraints, not just documentation.</p></div>
+            <span class="a-index">01</span>
+          </div>
+          <div class="a-ledger">
+            <div class="evidence-cell"><strong>Domain scopes</strong><span>Owned boundaries</span></div>
+            <div class="evidence-cell is-green"><strong>Shared contracts</strong><span>Explicit seams</span></div>
+            <div class="evidence-cell"><strong>Architecture checks</strong><span>Automated rules</span></div>
+            <div class="evidence-cell is-green"><strong>CI/CD</strong><span>Quality gates</span></div>
+          </div>
+        </article>
+        <a class="project-link" href="#">Explore the implementation →</a>
+
+        <article class="surface a-project">
+          <div class="a-project-head">
+            <div><span class="kicker">Developer experience</span><h3>typescript-cli-template</h3><p class="a-project-summary">A scalable TypeScript CLI foundation with strict defaults, shared tooling, caching, tests, dependency checks, and documentation.</p></div>
+            <span class="a-index">02</span>
+          </div>
+          <div class="a-ledger">
+            <div class="evidence-cell"><strong>Turborepo</strong><span>Shared orchestration</span></div>
+            <div class="evidence-cell is-green"><strong>Strict TypeScript</strong><span>Safe defaults</span></div>
+            <div class="evidence-cell"><strong>Dependency checks</strong><span>Guarded graph</span></div>
+            <div class="evidence-cell is-green"><strong>Tests + docs</strong><span>Fast feedback</span></div>
+          </div>
+        </article>
+        <a class="project-link" href="#">Explore the toolchain →</a>
+
+        <h2>Public GitHub activity</h2>
+        <picture class="activity-picture">
+          <source media="(max-width: 600px)" srcset="../profile/stats-mobile.svg" />
+          <img class="activity-preview" src="../profile/stats.svg" alt="Public activity ledger preview" />
+        </picture>
+      </section>
+
+      <section class="variant" data-variant="B">
+        <div class="surface b-board">
+          <div class="b-top">
+            <div>
+              <span class="kicker">Frontend systems &amp; engineering leadership</span>
+              <h1>Ivan Reutenko</h1>
+              <p class="b-lead">Architecture and developer experience made explicit through boundaries, tooling, and automated checks.</p>
+              <div class="b-current"><span class="kicker">Most recently</span><strong>Frontend Architect</strong><span>Previously Tech Lead and Team Lead</span></div>
+            </div>
+            <div class="b-principles">
+              <div class="evidence-cell is-green"><strong>Architecture</strong><span>Boundaries, contracts, evolvability</span></div>
+              <div class="evidence-cell"><strong>DX</strong><span>Fast feedback and paved paths</span></div>
+              <div class="evidence-cell is-green"><strong>Scale</strong><span>Code and practices that survive growth</span></div>
+            </div>
+          </div>
+
+          <div class="b-work-title"><strong>Selected engineering work</strong><span>The codebase is the proof</span></div>
+          <div class="b-project-grid">
+            <article class="b-project">
+              <span class="kicker">01 · Implementation quality</span><h3>mk-combos</h3>
+              <p>Ownership boundaries implemented as executable constraints in a local-first React codebase.</p>
+              <div class="b-tags"><span>Domain scopes</span><span>Contracts</span><span>Architecture checks</span><span>CI/CD</span></div>
+            </article>
+            <article class="b-project">
+              <span class="kicker">02 · Developer experience</span><h3>typescript-cli-template</h3>
+              <p>A scalable CLI foundation with strict defaults, shared tooling, tests, dependency checks, and docs.</p>
+              <div class="b-tags"><span>Turborepo</span><span>Strict TS</span><span>Dependency checks</span><span>Tests + docs</span></div>
+            </article>
+          </div>
+        </div>
+        <div class="b-links"><a href="#">Connect on LinkedIn →</a><a href="#">Explore mk-combos →</a><a href="#">Explore the CLI toolchain →</a></div>
+        <h2>Public GitHub activity</h2>
+        <picture class="activity-picture">
+          <source media="(max-width: 600px)" srcset="../profile/stats-mobile.svg" />
+          <img class="activity-preview" src="../profile/stats.svg" alt="Public activity ledger preview" />
+        </picture>
+      </section>
+
+      <section class="variant" data-variant="C">
+        <div class="c-hero">
+          <div>
+            <span class="kicker">Frontend systems &amp; engineering leadership</span>
+            <h1>Ivan Reutenko</h1>
+            <p>Most recently a <strong>Frontend Architect</strong>, focused on systems that remain understandable as teams and products scale. Previously Tech Lead and Team Lead.</p>
+            <a class="connect" href="#">Connect on LinkedIn</a>
+          </div>
+          <div class="c-focus-rail">
+            <div class="evidence-cell"><strong>Architecture</strong><span>Boundaries · contracts · evolvability</span></div>
+            <div class="evidence-cell"><strong>Developer experience</strong><span>Fast feedback · paved paths</span></div>
+            <div class="evidence-cell"><strong>Scalability</strong><span>Systems and practices that survive growth</span></div>
+          </div>
+        </div>
+
+        <h2>Selected engineering work</h2>
+        <p class="c-intro"><strong>The codebase is the proof.</strong> These projects turn architectural decisions into implementation constraints, and developer experience into reliable tooling and feedback loops.</p>
+
+        <article class="c-project-row">
+          <div class="c-number">01</div>
+          <div class="c-project-copy"><span class="kicker">Implementation quality</span><h3>mk-combos</h3><p>A local-first React codebase where ownership boundaries are executable constraints.</p><a href="#">Explore the implementation →</a></div>
+          <div class="c-evidence">
+            <div class="evidence-cell"><strong>Domain scopes</strong><span>Owned boundaries</span></div>
+            <div class="evidence-cell is-green"><strong>Shared contracts</strong><span>Explicit seams</span></div>
+            <div class="evidence-cell"><strong>Architecture checks</strong><span>Automated rules</span></div>
+            <div class="evidence-cell is-green"><strong>CI/CD</strong><span>Quality gates</span></div>
+          </div>
+        </article>
+
+        <article class="c-project-row">
+          <div class="c-number">02</div>
+          <div class="c-project-copy"><span class="kicker">Developer experience</span><h3>typescript-cli-template</h3><p>A scalable TypeScript CLI foundation with strict defaults, shared tooling, tests, and documentation.</p><a href="#">Explore the toolchain →</a></div>
+          <div class="c-evidence">
+            <div class="evidence-cell"><strong>Turborepo</strong><span>Shared orchestration</span></div>
+            <div class="evidence-cell is-green"><strong>Strict TypeScript</strong><span>Safe defaults</span></div>
+            <div class="evidence-cell"><strong>Dependency checks</strong><span>Guarded graph</span></div>
+            <div class="evidence-cell is-green"><strong>Tests + docs</strong><span>Fast feedback</span></div>
+          </div>
+        </article>
+
+        <h2>Public GitHub activity</h2>
+        <picture class="activity-picture">
+          <source media="(max-width: 600px)" srcset="../profile/stats-mobile.svg" />
+          <img class="activity-preview" src="../profile/stats.svg" alt="Public activity ledger preview" />
+        </picture>
+      </section>
+    </main>
+
+    <nav class="prototype-switcher" aria-label="Prototype variants">
+      <button type="button" data-direction="-1" aria-label="Previous variant">←</button>
+      <div class="variant-label" aria-live="polite"></div>
+      <button type="button" data-direction="1" aria-label="Next variant">→</button>
+    </nav>
+
+    <script>
+      const variants = [
+        { key: "A", name: "Modular ledger" },
+        { key: "B", name: "Unified profile board" },
+        { key: "C", name: "Evidence narrative" },
+      ];
+
+      function selectedIndex() {
+        const requested = new URLSearchParams(location.search).get("variant")?.toUpperCase();
+        const index = variants.findIndex(({ key }) => key === requested);
+        return index < 0 ? 0 : index;
+      }
+
+      function render(index) {
+        const variant = variants[index];
+        document.querySelectorAll(".variant").forEach((element) => {
+          element.classList.toggle("is-active", element.dataset.variant === variant.key);
+        });
+        document.querySelector(".variant-label").textContent = `${variant.key} — ${variant.name}`;
+        const url = new URL(location.href);
+        url.searchParams.set("variant", variant.key);
+        history.replaceState({}, "", url);
+      }
+
+      function cycle(delta) {
+        const next = (selectedIndex() + delta + variants.length) % variants.length;
+        render(next);
+      }
+
+      document.querySelectorAll("[data-direction]").forEach((button) => {
+        button.addEventListener("click", () => cycle(Number(button.dataset.direction)));
+      });
+
+      addEventListener("keydown", (event) => {
+        const editing = event.target.matches("input, textarea, [contenteditable]");
+        if (editing || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        cycle(event.key === "ArrowLeft" ? -1 : 1);
+      });
+
+      render(selectedIndex());
+    </script>
+  </body>
+</html>

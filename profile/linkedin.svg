@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" width="174" height="34" viewBox="0 0 174 34">
+  <title id="title">Connect on LinkedIn</title>
+  <desc id="desc">Open Ivan Reutenko's LinkedIn profile.</desc>
+  <style>
+    .button { fill: #0a66c2; }
+    .icon, .label { fill: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 700; }
+    .icon { font-size: 13px; }
+    .label { font-size: 12px; }
+    @media (prefers-color-scheme: dark) {
+      .button { fill: #0a66c2; stroke: #58a6ff; }
+    }
+  </style>
+  <rect class="button" x="0.5" y="0.5" width="173" height="33" rx="6"/>
+  <text class="icon" x="15" y="22">in</text>
+  <text class="label" x="38" y="22">Connect on LinkedIn</text>
+</svg>
